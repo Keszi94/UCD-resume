@@ -63,10 +63,22 @@ function fetchGitHubInformation(event) {
                 $("#gh-user-data").html(`<h2>No info found for user ${username}</h2>`);
             } else {
                 console.log(errorResponse);
-                // Correcting error handling to access responseJSON and proper error message
+                // Accessing response JSON and proper error message
                 var message = errorResponse.responseJSON ? errorResponse.responseJSON.message : 'An error occurred';
+            
+                // Check if rate limit exceeded and access the X-RateLimit-Reset header
+                if (errorResponse.status === 403 && errorResponse.getResponseHeader('X-RateLimit-Reset')) {
+                    var resetTime = errorResponse.getResponseHeader('X-RateLimit-Reset');
+                    var resetDate = new Date(resetTime * 1000); // Convert to a human-readable date
+                    var formattedTime = resetDate.toLocaleString(); // Format the time for display
+            
+                    // Custom message with reset time
+                    message = `Too many requests, please wait until ${formattedTime}`;
+                }
+            
                 $("#gh-user-data").html(
-                    `<h2>Error: ${message}</h2>`);
+                    `<h2>Error: ${message}</h2>`
+                );
             }
         });
 }
