@@ -6,14 +6,15 @@ function userInformationHTML(user) {
     </span>
     </h2>
     <div class="gh-content">
-    <div clas="gh-avatar">
+    <div class="gh-avatar">  <!-- Fixed typo here -->
     <a href="${user.html_url}" target="_blank">
     <img src="${user.avatar_url}" width="80" height="80" alt="${user.login}">
     </a>
-    </div>
+    </div>  <!-- Closing the div correctly -->
     <p>Followers: ${user.followers} - Following: ${user.following} <br> Repos: ${user.public_repos}</p>
     </div>`;
 }
+
 
 function repoInformationHTML(repos) {
     if (repos.length === 0) {
@@ -36,6 +37,9 @@ function repoInformationHTML(repos) {
 }
 
 function fetchGitHubInformation(event) {
+    $("#gh-user-data").html("");
+    $("#gh-repo-data").html("");
+
     var username = $("#gh-username").val();
     if (!username) {
         $("#gh-user-data").html(`<h2>Please enter a Github username</h2>`);
@@ -59,8 +63,10 @@ function fetchGitHubInformation(event) {
                 $("#gh-user-data").html(`<h2>No info found for user ${username}</h2>`);
             } else {
                 console.log(errorResponse);
+                // Correcting error handling to access responseJSON and proper error message
+                var message = errorResponse.responseJSON ? errorResponse.responseJSON.message : 'An error occurred';
                 $("#gh-user-data").html(
-                    `<h2>Error: ${errorResponse.response.JSON.mess}</h2>`);
+                    `<h2>Error: ${message}</h2>`);
             }
         });
 }
