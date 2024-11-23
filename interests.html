@@ -197,50 +197,9 @@
         </div>
 
     </footer>
-    <script type="module">
-        import { MarkerClusterer } from "https://cdn.jsdelivr.net/npm/@googlemaps/markerclusterer/+esm";
-
-        // Define the initMap function outside of the inline script
-        async function initMap() {
-            const { Map } = await google.maps.importLibrary("maps");
-            const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker");
-
-            // Initialize the map without the Map ID for testing
-            const map = new Map(document.getElementById("map"), {
-                zoom: 3,
-                center: { lat: 46.619261, lng: -33.134766 },
-                mapId: '898420f02b66cbeb'  // Replace 'YOUR_MAP_ID' with the actual Map ID
-            });
-
-            const locations = [
-                { lat: 40.785091, lng: -73.968285 },
-                { lat: 41.084045, lng: -73.874245 },
-                { lat: 40.754932, lng: -73.984016 },
-            ];
-
-            const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const markers = locations.map((position, i) => {
-                const label = labels[i % labels.length];
-                const pinGlyph = new PinElement({ glyph: label, glyphColor: "white" });
-
-                return new AdvancedMarkerElement({
-                    position,
-                    content: pinGlyph.element,
-                    map,
-                });
-            });
-
-            new MarkerClusterer({ markers, map });
-        }
-
-        // Wait for window load to ensure the API is fully loaded before calling initMap()
-        window.onload = () => {
-            initMap(); // Call initMap once the page is fully loaded
-        }
-    </script>
-
-    <!-- Make sure to add the Google Maps API script with your API key here -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqppQ_h3WhQkOneDG2InzvqGDprRlptWk&libraries=marker"></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqppQ_h3WhQkOneDG2InzvqGDprRlptWk&callback=initMap"></script>
+    <script src="assets/js/maps.js"></script>
 </body>
 
 </html>
